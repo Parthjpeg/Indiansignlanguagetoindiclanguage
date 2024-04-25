@@ -9,7 +9,7 @@ from .helpers import *
 import time
 @api_view(["POST"])
 def gettrans(request):
-
+    print(request.data.get("language"))
     video_file = request.FILES['video']
 
     # Create a temporary file
@@ -37,5 +37,6 @@ def gettrans(request):
     time.sleep(10)
     s = gettextfromvideo()
     translate = generativetranslate(s)
-    return Response({"message":translate})
+    translatedtextlanguage = translatetext(translate , request.data.get("language"))
+    return Response({"message":translatedtextlanguage})
 # Create your views here.

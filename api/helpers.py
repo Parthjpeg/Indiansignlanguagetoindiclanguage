@@ -54,3 +54,48 @@ def generativetranslate(s):
 
     totranslate = response.choices[0].message.content
     return totranslate
+
+
+def translatetext(text , language):
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": "0ELDJvqbaDLzAGPIR1Dfv38ehE21HkMjxWkXYWq-Mk1bajlyyxXMyHGpwb3lD2cz"
+    }
+    payload = {
+       "inputData": {
+        "input": [
+            {
+                "source": text
+            }
+        ]
+        },
+        "pipelineTasks":[
+        {
+            "taskType": "translation",
+            "config": {
+                "language": {
+                    "sourceLanguage": "en",
+                    "targetLanguage": language
+                },
+                "serviceId": "ai4bharat/indictrans-v2-all-gpu--t4"
+            }
+        }
+        ]
+        }
+    response = requests.post("https://dhruva-api.bhashini.gov.in/services/inference/pipeline", headers=headers, json=payload)
+    return (response.json().get('pipelineResponse')[0].get('output')[0].get('target'))
+
+#supported languages
+# as
+# bn
+# brx
+# gu
+# hi
+# kn
+# ml
+# mni
+# mr
+# or
+# pa
+# ta
+# te
